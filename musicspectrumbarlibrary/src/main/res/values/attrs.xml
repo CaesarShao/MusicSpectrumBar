@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MusicSpectrumBar">
+        <attr name="roundAngle" format="integer"/>
+        <attr name="poseType" format="integer"/>
+        <attr name="gapMultiple" format="float"/>
+        <attr name="unSelectColor" format="color"/>
+        <attr name="colorGradient" format="integer"/>
+        <attr name="SpectMultiple" format="float"/>
+    </declare-styleable>
+
+</resources>
