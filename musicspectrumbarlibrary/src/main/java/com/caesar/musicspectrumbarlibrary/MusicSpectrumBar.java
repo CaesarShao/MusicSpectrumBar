@@ -110,6 +110,13 @@ public class MusicSpectrumBar extends View {
                 performClick();
                 if (listener != null) {
                     listener.onStartTrackingTouch();
+                    float refan = event.getX();
+                    if (refan < 0) {
+                        refan = 0;
+                    } else if (refan > viewAllWidth) {
+                        refan = viewAllWidth;
+                    }
+                    listener.onProgressChanged((int) (refan / viewAllWidth * 100), true);
                 }
             case MotionEvent.ACTION_MOVE:
                 currentT = (int) ((event.getX() / viewAllWidth) * highD.length);
@@ -129,6 +136,8 @@ public class MusicSpectrumBar extends View {
                     float refan = event.getX();
                     if (refan < 0) {
                         refan = 0;
+                    }else if (refan > viewAllWidth) {
+                        refan = viewAllWidth;
                     }
                     listener.onStopTrackingTouch((int) (refan / viewAllWidth * 100));
                 }
@@ -217,9 +226,13 @@ public class MusicSpectrumBar extends View {
      *
      * @param current 进度
      */
-    protected void setCurrent(int current) {
+    public void setCurrent(int current) {
         currentT = highD.length * current / 100;
         invalidate();
+        if (listener!=null){
+            listener.onProgressChanged(current,false);
+        }
+
     }
 
 

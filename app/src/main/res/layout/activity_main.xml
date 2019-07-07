@@ -30,24 +30,61 @@
                 android:id="@+id/tv_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="当前进度 : 0"
+                android:text="即时进度 : 0"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tv_touch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手指放开进度 : 0"
                 android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/btn_one"
-                android:text="设置进度为25"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="设置进度为25" />
 
             <Button
                 android:id="@+id/btn_two"
-                android:text="设置进度为60"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="设置进度为60" />
 
         </LinearLayout>
 
     </LinearLayout>
 
+
+    <com.caesar.musicspectrumbarlibrary.MusicSpectrumBar
+        android:id="@+id/mb_type2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@color/colorAccent"
+        app:colorGradient="1"
+        app:gapMultiple="9"
+        app:poseType="1"
+        app:unSelectColor="@color/colorPrimary" />
+
+
+    <com.caesar.musicspectrumbarlibrary.MusicSpectrumBar
+        android:id="@+id/mb_type3"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        app:colorGradient="1"
+        app:poseType="2"
+        app:unSelectColor="@color/colorAccent" />
+
+
+    <com.caesar.musicspectrumbarlibrary.MusicSpectrumBar
+        android:id="@+id/mb_type4"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        app:poseType="3"
+        app:unSelectColor="@color/colorAccent" />
 
 </LinearLayout>
