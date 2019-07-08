@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -18,6 +19,9 @@ import java.util.ArrayList;
  */
 public class MusicSpectrumBar extends View {
 
+    //上次拦截滑动的坐标
+    private float mLastXIntercept = 0f;
+    private float mLastYIntercept = 0f;
     private int viewAllWidth;
     private int viewAllHigh;
     private Paint paint;
@@ -120,6 +124,9 @@ public class MusicSpectrumBar extends View {
                 }
             case MotionEvent.ACTION_MOVE:
                 currentT = (int) ((event.getX() / viewAllWidth) * highD.length);
+                if (currentT > highD.length) {
+                    currentT = highD.length;
+                }
                 invalidate();
                 if (listener != null) {
                     float refan = event.getX();
@@ -136,7 +143,7 @@ public class MusicSpectrumBar extends View {
                     float refan = event.getX();
                     if (refan < 0) {
                         refan = 0;
-                    }else if (refan > viewAllWidth) {
+                    } else if (refan > viewAllWidth) {
                         refan = viewAllWidth;
                     }
                     listener.onStopTrackingTouch((int) (refan / viewAllWidth * 100));
@@ -145,6 +152,34 @@ public class MusicSpectrumBar extends View {
         return super.onTouchEvent(event);
     }
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float deltaX = x - mLastXIntercept;
+                float deltaY = y - mLastYIntercept;
+                if (Math.abs(deltaX) < 1 && Math.abs(deltaY) >10 * Math.abs(deltaX)) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                } else {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                getParent().requestDisallowInterceptTouchEvent(false);
+                break;
+            default:
+                break;
+        }
+        mLastXIntercept = x;
+        mLastYIntercept = y;
+        return super.dispatchTouchEvent(event);
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -212,12 +247,12 @@ public class MusicSpectrumBar extends View {
      * @param highDArr 频谱条的数据组
      * @param colorArr 频谱条的颜色组
      */
-    protected void setDatas(int[] highDArr, String[] colorArr) {
+    public void setDatas(int[] highDArr, String[] colorArr) {
         this.highD = highDArr;
         this.ColorStr = colorArr;
-        clearItems();
-        setItems();
-        invalidate();
+//        clearItems();
+//        setItems();
+//        invalidate();
     }
 
 
@@ -229,8 +264,8 @@ public class MusicSpectrumBar extends View {
     public void setCurrent(int current) {
         currentT = highD.length * current / 100;
         invalidate();
-        if (listener!=null){
-            listener.onProgressChanged(current,false);
+        if (listener != null) {
+            listener.onProgressChanged(current, false);
         }
 
     }
